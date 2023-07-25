@@ -41,9 +41,26 @@
             cursor: pointer;
         }
 
+        #switch-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
         @media only screen and (max-width: 600px) {
             #arrow {
                 display: none; /* Hide the arrow on mobile */
+            }
+
+            #switch-button {
+                display: none; /* Hide the switch button on mobile */
             }
         }
     </style>
@@ -54,9 +71,7 @@
         <div id="arrow" onclick="nextImage()"></div>
     </div>
 
-    <div id="switch-container">
-        <button id="switch-button" onclick="toggleImage()">Switch Image</button>
-    </div>
+    <button id="switch-button" onclick="toggleImage()">Switch Image</button>
 
     <script>
         var image = document.querySelector('.image');
