@@ -14,14 +14,12 @@
     </div>
 
     <div id="switch-container">
-        <input type="checkbox" id="toggle">
-        <label for="toggle"></label>
+        <button id="switch-button" onclick="toggleImage()">Switch Image</button>
     </div>
 
     <script>
         var image = document.querySelector('.image');
-        var switchContainer = document.getElementById('switch-container');
-        var toggle = document.getElementById('toggle');
+        var switchButton = document.getElementById('switch-button');
 
         // Array of image file names
         var images = [
@@ -38,15 +36,11 @@
             image.src = images[currentIndex];
         }
 
-        // Event listener for toggling images with the switch on desktop
-        toggle.addEventListener('change', function() {
-            if (this.checked) {
-                currentIndex = (currentIndex + 1) % images.length;
-            } else {
-                currentIndex = 0;
-            }
+        // Function to toggle between the two images on desktop
+        function toggleImage() {
+            currentIndex = (currentIndex + 1) % images.length;
             updateImage();
-        });
+        }
 
         // Event listeners for swiping images on mobile
         /* Your existing touch events here */
@@ -58,7 +52,7 @@
 
         // Show the toggle switch on desktop, hide it on mobile
         if (!isMobile) {
-            switchContainer.style.display = 'block';
+            switchButton.style.display = 'block';
         }
     </script>
 </body>
