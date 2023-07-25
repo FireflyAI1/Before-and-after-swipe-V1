@@ -1,33 +1,115 @@
-<script>
-    var image = document.querySelector('.image');
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Houlton School Then and Now</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
 
-    // Array of image file names
-    var images = [
-        "85x slowmo.jpg",
-        "Left Houlton School before.jpg",
-        "Right Houlton School after.jpg"
-    ];
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            background-color: #2ecc71;
+            position: relative;
+        }
 
-    // Index to keep track of the current image
-    var currentIndex = 0;
+        .image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            object-fit: contain; /* Ensure the image fits within the container */
+        }
 
-    // Function to update the image source
-    function updateImage() {
-        image.src = images[currentIndex];
-    }
+        #arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 10px;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 20px solid white;
+            cursor: pointer;
+        }
 
-    // Event listener for toggling images with the switch on desktop
-    function toggleImage() {
-        currentIndex = (currentIndex + 1) % images.length;
-        updateImage();
-    }
+        @media only screen and (max-width: 600px) {
+            #arrow {
+                display: none; /* Hide the arrow on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img src="85x slowmo.jpg" class="image" alt="Landing Page Image">
+        <div id="arrow" onclick="nextImage()"></div>
+    </div>
 
-    // Event listener for moving to the next image on desktop
-    function nextImage() {
-        currentIndex = (currentIndex + 1) % images.length;
-        updateImage();
-    }
+    <div id="switch-container">
+        <button id="switch-button" onclick="toggleImage()">Switch Image</button>
+    </div>
 
-    // Event listeners for swiping images on mobile
-    // ... (The rest of the mobile swipe code remains unchanged)
-</script>
+    <script>
+        var image = document.querySelector('.image');
+
+        // Array of image file names
+        var images = [
+            "85x slowmo.jpg",
+            "Left Houlton School before.jpg",
+            "Right Houlton School after.jpg"
+        ];
+
+        // Index to keep track of the current image
+        var currentIndex = 0;
+
+        // Function to update the image source
+        function updateImage() {
+            image.src = images[currentIndex];
+        }
+
+        // Event listener for toggling images with the switch on desktop
+        function toggleImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+        }
+
+        // Event listener for moving to the next image on desktop
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+        }
+
+        // Event listeners for swiping images on mobile
+        var touchStartX = 0;
+        var touchEndX = 0;
+
+        image.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        image.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].clientX;
+            var swipeDistance = touchEndX - touchStartX;
+
+            if (swipeDistance > 50) {
+                // Swipe right
+                currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+            } else if (swipeDistance < -50) {
+                // Swipe left
+                currentIndex = (currentIndex + 1) % images.length;
+            }
+
+            updateImage();
+        });
+    </script>
+</body>
+</html>
